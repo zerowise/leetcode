@@ -48,8 +48,10 @@ public class Solution {
 
     public static void main(String[] args) {
         //System.out.println(isNStraightHand(new int[]{2, 1}, 2));
-        moveZeroes(new int[]{0, 1, 0, 3, 12});
+//        moveZeroes(new int[]{0, 1, 0, 3, 12});
+        System.out.println(longestPalindrome("babad"));
     }
+
 
 
     /**
@@ -314,40 +316,75 @@ public class Solution {
      * @param s
      * @return
      */
-    public String longestPalindrome(String s) {
-        if (s == null || s.length() < 2)
-            return s;
-        // // 添加头^尾$两个不同的字符用于消除边界判断
-        String temp = '^'+s+'$';
+    public static String longestPalindrome(String s) {
+//        if (s == null || s.length() < 2)
+//            return s;
+//        // // 添加头^尾$两个不同的字符用于消除边界判断
+//        String temp = '^' + s + '$';
+//
+//
+//        int c = 0, r = 0, len = s.length() * 2 + 1 + 2, centerIndex = 0, maxLen = 0;
+//        int[] p = new int[len];
+//
+//        for (int i = 0; i < len - 1; i++) {
+//            int iMirror = c - (i - c);
+//            p[i] = r > i ? Math.min(r - i, p[iMirror]) : 0;
+//            // 基于当前点为中心扩展寻找回文
+//            int left = i - 1 - p[i];
+//            int right = i + 1 + p[i];
+//
+//            while (temp.charAt(left / 2) == temp.charAt((right - 1) / 2)) {
+//                p[i]++;
+//                left--;
+//                right++;
+//            }
+//
+//            //如果扩展后的右边界值大于当前右边界值则更新
+//            if (i + p[i] > r) {
+//                c = i;
+//                r = i + p[i];
+//            }
+//            // 寻找最大值与中心点
+//            if (p[i] > maxLen) {
+//                maxLen = p[i];
+//                centerIndex = i;
+//            }
+//
+//        }
+//
+//        int beginIndex = (centerIndex - 1 - maxLen) / 2;
+//
+//        return s.substring(beginIndex, beginIndex + maxLen);
 
+        // 改造字符串，每个字符间添加#。添加头^尾$两个不同的字符用于消除边界判断
+        StringBuilder sb = new StringBuilder("^");
+        for (int i = 0, len = s.length(); i < len; i++)
+            sb.append("#").append(s.charAt(i));
+        sb.append("#$");
 
-        int c = 0, r = 0, len = s.length() * 2 + 1 + 2, centerIndex = 0, maxLen = 0;
+        int c = 0, r = 0, len = sb.length(), centerIndex = 0, maxLen = 0;
         int[] p = new int[len];
 
-        for (int i = 0; i < len-1; i++) {
-            int iMirror = c-(i-c);
-            p[i] = r>i?Math.min(r-i,p[iMirror]):0;
+        for (int i = 1; i < len - 1; i++) {
+            int iMirror = 2 * c - i; // 相当于 c - (i - c)
+
+            p[i] = r > i ? Math.min(r - i, p[iMirror]) : 0;
+
             // 基于当前点为中心扩展寻找回文
-            int left = i - 1 - p[i];
-            int right = i + 1 + p[i];
-
-            while (temp.charAt(left / 2) == temp.charAt((right - 1) / 2)) {
+            while (sb.charAt(i - 1 - p[i]) == sb.charAt(i + 1 + p[i]))
                 p[i]++;
-                left--;
-                right++;
-            }
 
-            //如果扩展后的右边界值大于当前右边界值则更新
+            // 如果扩展后的右边界值大于当前右边界值则更新
             if (i + p[i] > r) {
                 c = i;
                 r = i + p[i];
             }
+
             // 寻找最大值与中心点
             if (p[i] > maxLen) {
                 maxLen = p[i];
                 centerIndex = i;
             }
-
         }
 
         int beginIndex = (centerIndex - 1 - maxLen) / 2;
