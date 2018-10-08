@@ -17,7 +17,7 @@ public class Solution {
         Arrays.sort(hand);
         int firstEleIndex = 0;
         int num = 0;
-        while (firstEleIndex + w < hand.length) {
+        while (firstEleIndex + w <= hand.length) {
             int[] tmpArray = new int[w];
             tmpArray[0] = hand[firstEleIndex];
             int tempInHandsIndex = firstEleIndex + 1;
@@ -43,7 +43,6 @@ public class Solution {
 
 
     public static void main(String[] args) {
-        System.out.println(isNStraightHand(new int[]{1, 2, 3, 6, 2, 3, 4, 7, 8}, 1));
-        System.out.println(isNStraightHand(new int[]{1, 2, 3, 4, 5}, 4));
+        System.out.println(isNStraightHand(new int[]{2,1}, 2));
     }
 }
