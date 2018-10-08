@@ -3,6 +3,7 @@ package com.github.zerowise.leetcode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 
 public class Solution {
@@ -292,5 +293,65 @@ public class Solution {
             }
         }
         return (Math.max(l1, l2) + Math.min(r1, r2)) / 2.0;
+    }
+
+    /**
+     * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。
+     *
+     * 示例 1：
+     *
+     * 输入: "babad"
+     * 输出: "bab"
+     * 注意: "aba"也是一个有效答案。
+     * 示例 2：
+     *
+     * 输入: "cbbd"
+     * 输出: "bb"
+     *
+     * see https://lierabbit.cn/2018/05/08/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/
+     *
+     * see https://articles.leetcode.com/longest-palindromic-substring-part-ii/
+     * @param s
+     * @return
+     */
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 2)
+            return s;
+        // // 添加头^尾$两个不同的字符用于消除边界判断
+        String temp = '^'+s+'$';
+
+
+        int c = 0, r = 0, len = s.length() * 2 + 1 + 2, centerIndex = 0, maxLen = 0;
+        int[] p = new int[len];
+
+        for (int i = 0; i < len-1; i++) {
+            int iMirror = c-(i-c);
+            p[i] = r>i?Math.min(r-i,p[iMirror]):0;
+            // 基于当前点为中心扩展寻找回文
+            int left = i - 1 - p[i];
+            int right = i + 1 + p[i];
+
+            while (temp.charAt(left / 2) == temp.charAt((right - 1) / 2)) {
+                p[i]++;
+                left--;
+                right++;
+            }
+
+            //如果扩展后的右边界值大于当前右边界值则更新
+            if (i + p[i] > r) {
+                c = i;
+                r = i + p[i];
+            }
+            // 寻找最大值与中心点
+            if (p[i] > maxLen) {
+                maxLen = p[i];
+                centerIndex = i;
+            }
+
+        }
+
+        int beginIndex = (centerIndex - 1 - maxLen) / 2;
+
+        return s.substring(beginIndex, beginIndex + maxLen);
     }
 }
