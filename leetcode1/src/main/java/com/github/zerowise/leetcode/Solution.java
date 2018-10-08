@@ -27,15 +27,14 @@ public class Solution {
                     tmpArray[tempInTempIndex + 1] = hand[tempInHandsIndex];
                     tempInTempIndex++;
                     if (tempInTempIndex == w - 1) {
-                        num++;
-                        Arrays.toString(tmpArray);
+                        num += 2;
+                        if (num >= w) {
+                            return true;
+                        }
                         break;
                     }
                 }
                 tempInHandsIndex++;
-            }
-            if (num == w) {
-                return true;
             }
             firstEleIndex++;
         }
