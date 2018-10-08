@@ -1,6 +1,7 @@
 package com.github.zerowise.leetcode;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -144,7 +145,7 @@ public class Solution {
             if (nums[i] == 0) {
                 counter++;
             } else {
-                nums[i-counter] = nums[i];
+                nums[i - counter] = nums[i];
                 if (counter > 0)
                     nums[i] = 0;
             }
@@ -153,5 +154,83 @@ public class Solution {
         System.out.println(Arrays.toString(nums));
     }
 
+    public int removeElement(int[] nums, int val) {
+        if (nums != null && nums.length != 0) {
+            int j = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] != val) {
+                    nums[j++] = nums[i];
+                }
+            }
+            return j;
+        }
+        return 0;
+    }
 
+    /**
+     * 给定两个非空链表来表示两个非负整数。位数按照逆序方式存储，它们的每个节点只存储单个数字。将两数相加返回一个新的链表。
+     *
+     * 你可以假设除了数字 0 之外，这两个数字都不会以零开头。
+     *
+     * 示例：
+     *
+     * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+     * 输出：7 -> 0 -> 8
+     * 原因：342 + 465 = 807
+     * @param l1
+     * @param l2
+     * @return
+     */
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode rs = null;
+        ListNode last = null;
+        ListNode cur = null;
+        int val = 0;
+        while (null != l1 || null != l2) {
+            if (null != l1) {
+                val += l1.val;
+                l1 = l1.next;
+            }
+            if (null != l2) {
+                val += l2.val;
+                l2 = l2.next;
+            }
+            cur = new ListNode(val % 10);
+            val = val / 10;
+            if (null == last) {
+                rs = cur;
+            } else {
+                last.next = cur;
+            }
+            last = cur;
+        }
+        if (val > 0) {
+            cur = new ListNode(val);
+            last.next = cur;
+        }
+        return rs;
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    /**
+     * 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+     *
+     * 不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+     * @param nums
+     * @return
+     */
+//    public int removeDuplicates(int[] nums) {
+//        for (int i = 0; i < nums.length; i++) {
+//
+//        }
+//    }
 }
