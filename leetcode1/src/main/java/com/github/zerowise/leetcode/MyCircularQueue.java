@@ -8,7 +8,6 @@ public class MyCircularQueue {
     private int head = -1;// 头部指针
     private int tail = -1;//尾部指针
     private int[] nodeArray;//数组
-    private int size;
     private int capacity;
 
     /** Initialize your data structure here. Set the size of the queue to be k. */
@@ -28,7 +27,6 @@ public class MyCircularQueue {
         }
         tail = (tail + 1) % capacity;
         nodeArray[tail] = value;
-        size++;
         return true;
     }
 
@@ -39,7 +37,6 @@ public class MyCircularQueue {
         }
 
         nodeArray[head] = 0;
-        size--;
         if (head == tail) {
             head = tail = -1;
             return true;
@@ -64,13 +61,12 @@ public class MyCircularQueue {
 
     /** Checks whether the circular queue is empty or not. */
     public boolean isEmpty() {
-        return size == 0;
+        return head == -1;
     }
 
     /** Checks whether the circular queue is full or not. */
     public boolean isFull() {
-//        return (tail + 1) % nodeArray.length == head;
-        return size == capacity;
+        return (tail + 1) % capacity == head;
     }
 
 
